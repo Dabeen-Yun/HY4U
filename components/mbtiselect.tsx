@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 enum TestValue {
   NOTATALL,
@@ -8,14 +8,23 @@ enum TestValue {
   AGREE,
 }
 
-function MbtiSelect() {
-  const [value, setValue] = useState<TestValue>(TestValue.AVERAGE);
+interface SelectProps {
+    positive: string;
+    negative: string;
+    selectValue: (value: string) => void;
+}
+
+function MbtiSelect({ positive, negative, selectValue }: SelectProps) {
+  const [value, setValue] = useState<TestValue>(-1);
 
   return (
-    <div className="flex flex-row w-[310px] m-auto justify-between items-start pb-5">
+    <div className="flex flex-row w-[310px] m-auto space-x-5 items-start pb-5 cursor-pointer">
       <div
         className="flex w-[43px] flex-col justify-center items-center"
-        onClick={() => setValue(TestValue.NOTATALL)}
+        onClick={() => {
+            setValue(TestValue.NOTATALL);
+            selectValue(negative + negative + negative);
+        }}
       >
         <svg
           className={`${
@@ -35,7 +44,10 @@ function MbtiSelect() {
       </div>
       <div
         className="flex w-[43px] flex-col justify-center items-center"
-        onClick={() => setValue(TestValue.NO)}
+        onClick={() => {
+            setValue(TestValue.NO)
+            selectValue(negative + negative);
+        }}
       >
         <svg
           className={`${
@@ -55,7 +67,10 @@ function MbtiSelect() {
       </div>
       <div
         className="flex w-fit flex-col justify-center items-center"
-        onClick={() => setValue(TestValue.AVERAGE)}
+        onClick={() => {
+            setValue(TestValue.AVERAGE);
+            selectValue(negative + positive);
+        }}
       >
         <svg
           className={`${
@@ -75,7 +90,10 @@ function MbtiSelect() {
       </div>
       <div
         className="flex w-[43px] flex-col justify-center items-center"
-        onClick={() => setValue(TestValue.YES)}
+        onClick={() => {
+            setValue(TestValue.YES);
+            selectValue(positive + positive);
+        }}
       >
         <svg
           className={`${
@@ -95,7 +113,10 @@ function MbtiSelect() {
       </div>
       <div
         className="flex w-[43px] flex-col justify-center items-center"
-        onClick={() => setValue(TestValue.AGREE)}
+        onClick={() => {
+            setValue(TestValue.AGREE);
+            selectValue(positive + positive + positive);
+        }}
       >
         <svg
           className={`${
