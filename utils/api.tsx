@@ -6,7 +6,7 @@ export const client = axios.create({
   baseURL: "http://cashup.iptime.org:8000/",
 });
 
-export const updateToken = (access_token: string) => {
+export const updateToken = (access_token: any) => {
   if (access_token !== "undefined") {
     client.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
   }

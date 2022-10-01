@@ -7,23 +7,7 @@ function Home() {
     <>
       <MainNav title={"logo"} />
       <div className="p-2">
-        <div className="flex items-center text-center justify-center mt-[15px]">
-          <div>
-            <h2 className="text-[20px] font-bold ">학업관리비서 HY4U</h2>
-            <p className="text-[#999999] text-[14px]">
-              언제 어디서든 편하게 확인/관리
-            </p>
-          </div>
-          <div>
-            <Image
-              alt="main images"
-              layout="intrinsic"
-              width={70}
-              height={70}
-              src="/images/main.png"
-            />
-          </div>
-        </div>
+        <div className="flex items-center text-center justify-center"></div>
         <div className="flex justify-evenly flex-wrap ">
           <Menu
             title="포트폴리오"
