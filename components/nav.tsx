@@ -1,7 +1,7 @@
 function MainNav() {
   return (
-    <div className="bg-[#0E4A84] h-[55px] flex justify-between p-3.5">
-      <div>
+    <div className="bg-[#0E4A84] h-[60px] flex justify-between p-3.5 ">
+      <div className="mt-1.5">
         <svg
           width="66"
           height="20"
@@ -9,7 +9,7 @@ function MainNav() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g clip-path="url(#clip0_120_21)">
+          <g clipPath="url(#clip0_120_21)">
             <path
               d="M15.1218 0V19.6072H10.6409V11.8208H4.48091V19.6072H0V0H4.48091V7.50617H10.6409V0H15.1218Z"
               fill="white"
@@ -34,7 +34,7 @@ function MainNav() {
           </defs>
         </svg>
       </div>
-      <div>
+      <div className="mt-1.5">
         <svg
           width="24"
           height="24"
@@ -45,9 +45,9 @@ function MainNav() {
           <path
             d="M20 21C20 19.6044 20 18.9067 19.8278 18.3389C19.44 17.0605 18.4395 16.06 17.1611 15.6722C16.5933 15.5 15.8956 15.5 14.5 15.5H9.5C8.10444 15.5 7.40665 15.5 6.83886 15.6722C5.56045 16.06 4.56004 17.0605 4.17224 18.3389C4 18.9067 4 19.6044 4 21M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z"
             stroke="white"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </div>
