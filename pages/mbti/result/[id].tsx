@@ -1,11 +1,29 @@
-import MainNav from "../../components/nav";
+import MainNav from "../../../components/nav";
 import type { CSSProperties } from "react";
+import {useRouter} from "next/router";
+import {client} from "../../../utils/api";
+import {useQuery} from "@tanstack/react-query";
 
 export const wordBreak: CSSProperties = {
   wordBreak: "keep-all",
 };
 
-function Result() {
+function Id() {
+  const router = useRouter();
+  const id = router.query.id;
+
+  const getResult = () => {
+    return client.get(`polls/result/${id}/`).then((res) => res.data);
+  };
+
+  const { data, isLoading } = useQuery(["result", id], getResult);
+
+  const makeRatio = (ratio: number) => {
+    return (ratio * 100).toString().slice(0, 2);
+  }
+
+  if (isLoading) return <div></div>;
+
   return (
     <div>
       <MainNav title={"logo"} />
@@ -16,13 +34,13 @@ function Result() {
             <span>님의 학습유형</span>
           </div>
           <div className="font-bold text-[40px] text-[#2E7BFF] flex items-center mt-[10px]">
-            SADP
+            {data.msti}
           </div>
           <div className="n/n">
             <div className="S/O flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#2E7BFF]">S</span>
-                <span className="text-[14px] text-[#767676]">54%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.s_ratio)}%</span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
@@ -34,13 +52,13 @@ function Result() {
               </div>
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#D9D9D9]">O</span>
-                <span className="text-[14px] text-[#767676]">46%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.o_ratio)}%</span>
               </div>
             </div>
             <div className="A/T flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#2E7BFF]">A</span>
-                <span className="text-[14px] text-[#767676]">54%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.a_ratio)}%</span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
@@ -52,13 +70,13 @@ function Result() {
               </div>
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#D9D9D9]">T</span>
-                <span className="text-[14px] text-[#767676]">46%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.t_ratio)}%</span>
               </div>
             </div>
             <div className="D/C flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#2E7BFF]">D</span>
-                <span className="text-[14px] text-[#767676]">54%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.d_ratio)}%</span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
@@ -70,13 +88,13 @@ function Result() {
               </div>
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#D9D9D9]">C</span>
-                <span className="text-[14px] text-[#767676]">46%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.c_ratio)}%</span>
               </div>
             </div>
             <div className="P/E flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#2E7BFF]">P</span>
-                <span className="text-[14px] text-[#767676]">54%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.p_ratio)}%</span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
@@ -88,7 +106,7 @@ function Result() {
               </div>
               <div className="flex flex-col flex items-center">
                 <span className="font-bold text-[30px] text-[#D9D9D9]">E</span>
-                <span className="text-[14px] text-[#767676]">46%</span>
+                <span className="text-[14px] text-[#767676]">{makeRatio(data.e_ratio)}%</span>
               </div>
             </div>
           </div>
@@ -264,4 +282,4 @@ function Result() {
   );
 }
 
-export default Result;
+export default Id;
