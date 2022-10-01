@@ -1,6 +1,12 @@
 import Image from "next/image";
 import MainNav from "../../components/nav";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { loginState } from "../../recoil/atom/login";
+import { updateToken } from "../../utils/api";
 
 interface userData {
   id: string;
@@ -8,10 +14,42 @@ interface userData {
 }
 
 function Login() {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<userData>();
+  const [_, setAccess] = useCookies(["access_token"]);
+  const [__, setRefresh] = useCookies(["refresh_token"]);
+  const [___, setToken] = useRecoilState(loginState);
+
+  const Login = async ({ id, password }: userData) => {
+    const response = await axios.post(
+      "http://cashup.iptime.org:8000/accounts/login/",
+      {
+        username: id,
+        password: password,
+      }
+    );
+    setAccess("access_token", response.data.access_token);
+    setToken(response.data.access_token);
+    setRefresh("refresh_token", response.data.refresh_token);
+    if (response.status === 200) {
+      updateToken(response.data.access_token);
+      return true;
+    }
+    return false;
+  };
+
+  const onValid = async (data: userData) => {
+    const flag = await Login(data);
+    if (flag) {
+      router.push("/login/information");
+    } else {
+      alert("아이디 비밀번호를 다시 확인해주세요.");
+    }
+  };
+
   return (
     <div>
-      <MainNav />
+      <MainNav title={"logo"} />
       <div className="px-[30px] mt-[50px] h-full ">
         <div className="h-[90px]">
           <Image
@@ -31,7 +69,7 @@ function Login() {
             <br /> 이용하실 수 있습니다.
           </p>
         </div>
-        <div>
+        <div className="text-center">
           <input
             className="w-[310px] h-[40px] p-4 rounded-lg"
             {...register("id")}
@@ -41,12 +79,21 @@ function Login() {
             className="w-[310px] h-[40px] mt-[10px] p-4 rounded-lg"
             {...register("password")}
             placeholder="비밀번호"
+            type="password"
           />
         </div>
 
-        <div className="mt-[20px] text-[14px] h-[400px] ">
-          <p className="text-[#767676] text-center">아이디 / 비밀번호 찾기</p>
-        </div>
+        <form className=" h-[300px]">
+          <div className="mt-[20px] text-[14px] ">
+            <p className="text-[#767676] text-center">아이디 / 비밀번호 찾기</p>
+          </div>
+          <button
+            onClick={handleSubmit(onValid)}
+            className="bg-[#2E7BFF] text-center text-white w-[340px] h-[60px] rounded-lg mt-[190px]"
+          >
+            로그인
+          </button>
+        </form>
       </div>
     </div>
   );
