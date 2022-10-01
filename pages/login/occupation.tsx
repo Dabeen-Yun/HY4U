@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MainNav from "../../components/nav";
+import { useRouter } from "next/router";
 
 interface jobs {
   id: number;
@@ -15,6 +16,7 @@ interface interests {
 }
 
 function Occupation() {
+  const router = useRouter();
   const [list, setList] = useState<jobs[]>([]);
   const [interest, setInterest] = useState<interests[]>([]);
 
@@ -61,7 +63,7 @@ function Occupation() {
           })}
         </div>
       </div>
-      <div className="w-[350px] m-auto rounded-xl bg-[#FFFFFF] shadow-xl mt-5 pb-5 mb-[100px]">
+      <div className="w-[350px] m-auto rounded-xl bg-[#FFFFFF] shadow-xl mt-5 pb-5">
         <div className="p-5">
           <span className="font-bold text-[16px]">
             나의 관심분야(다중선택 가능)
@@ -82,6 +84,14 @@ function Occupation() {
           })}
         </div>
       </div>
+      <button
+        onClick={() => {
+          router.push("../mbti/result/1");
+        }}
+        className="bg-[#2E7BFF] text-center text-white w-[340px] h-[60px] rounded-lg m-auto flex justify-center items-center mb-[80px] mt-5"
+      >
+        제출하기
+      </button>
     </div>
   );
 }

@@ -52,10 +52,11 @@ function Test() {
     const response = await client
       .post("polls/result/", data)
       .then((res) => res.data);
-    if (response.id) {
-      router.push(`/mbti/result/${response.id}`);
+    if (response.status === 201) {
+      router.push(`mbti/result/${response.data.id}`);
     }
   };
+  console.log(result);
   if (isLoading) return <div></div>;
   return (
     <div>
@@ -79,7 +80,9 @@ function Test() {
         })}
       </div>
       <button
-        onClick={onValid}
+        onClick={() => {
+          router.push("../login/occupation");
+        }}
         className="bg-[#2E7BFF] text-center text-white w-[340px] h-[60px] rounded-lg m-auto flex justify-center items-center mb-[80px]"
       >
         검사 완료

@@ -30,7 +30,7 @@ function MstiQuestion() {
       <div className="flex justify-between relative top-16">
         <button
           onClick={() => {
-            router.push("/mbti/test");
+            router.push("../mbti/test");
           }}
           className="w-[350px] h-[60px] bg-[#2E7BFF] rounded-lg m-auto text-white "
         >
