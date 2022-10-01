@@ -1,6 +1,8 @@
 import MainNav from "../../components/nav";
+import { useRouter } from "next/router";
 
 function MstiQuestion() {
+  const router = useRouter();
   return (
     <>
       <MainNav title={"logo"} />
@@ -26,7 +28,12 @@ function MstiQuestion() {
         </div>
       </div>
       <div className="flex justify-between relative top-16">
-        <button className="w-[350px] h-[60px] bg-[#2E7BFF] rounded-lg m-auto text-white ">
+        <button
+          onClick={() => {
+            router.push("/mbti/test");
+          }}
+          className="w-[350px] h-[60px] bg-[#2E7BFF] rounded-lg m-auto text-white "
+        >
           시작하기
         </button>
       </div>
