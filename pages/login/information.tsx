@@ -4,6 +4,8 @@ import { client } from "../../utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { userState } from "../../recoil/atom/user";
 
 interface UserData {
   grade: string;
@@ -31,6 +33,8 @@ interface userForm {
 
 function Information() {
   const router = useRouter();
+  const [___, setUser] = useRecoilState(userState);
+
   const getUserInfo = () => {
     return client.get("students/info/").then((res) => res.data);
   };
@@ -46,6 +50,7 @@ function Information() {
     setValue("grade", data?.grade ?? "");
     setValue("studentId", data?.student_id ?? "");
     setValue("name", data?.name ?? "");
+    setUser({ name: data?.name ?? "" });
   }, [data]);
 
   const onValid = () => {

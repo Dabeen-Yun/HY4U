@@ -33,7 +33,6 @@ function Login() {
     setRefresh("refresh_token", response.data.refresh_token);
     if (response.status === 200) {
       updateToken(response.data.access_token);
-      // alert("성공");
       localStorage.setItem("access_token", response.data.access_token);
       return true;
     }

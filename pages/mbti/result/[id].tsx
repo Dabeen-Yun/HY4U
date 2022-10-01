@@ -1,8 +1,10 @@
 import MainNav from "../../../components/nav";
 import type { CSSProperties } from "react";
-import {useRouter} from "next/router";
-import {client} from "../../../utils/api";
-import {useQuery} from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { client } from "../../../utils/api";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import { userState } from "../../../recoil/atom/user";
 
 export const wordBreak: CSSProperties = {
   wordBreak: "keep-all",
@@ -20,7 +22,8 @@ function Id() {
 
   const makeRatio = (ratio: number) => {
     return (ratio * 100).toString().slice(0, 2);
-  }
+  };
+  const [getUser, _] = useRecoilState(userState);
 
   if (isLoading) return <div></div>;
 
@@ -30,7 +33,7 @@ function Id() {
       <div className="w-[350px] mt-5 flex m-auto">
         <div className="mbtiResult rounded-xl shadow-xl flex flex-col justify-center items-center w-[350px] bg-[#FFFFFF]">
           <div className="flex flex-row font-bold text-[20px] mt-5">
-            <span>김한양</span>
+            <span>{getUser.name}</span>
             <span>님의 학습유형</span>
           </div>
           <div className="font-bold text-[40px] text-[#2E7BFF] flex items-center mt-[10px]">
@@ -39,74 +42,224 @@ function Id() {
           <div className="n/n">
             <div className="S/O flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#2E7BFF]">S</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.s_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.s_ratio) > makeRatio(data.o_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  S
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.s_ratio)}%
+                </span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
-                <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
+                <div
+                  className={`h-[10px] ${
+                    makeRatio(data.s_ratio) > makeRatio(data.o_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  } rounded-xl w-[${240 - makeRatio(data.s_ratio)}px] absolute`}
+                />
                 <div className="font-bold text-[14px] pt-5 flex justify-center ">
-                  <span className="text-[#2E7BFF]">주관적</span>
+                  <span
+                    className={`${
+                      makeRatio(data.s_ratio) > makeRatio(data.o_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    주관적
+                  </span>
                   <span>/</span>
-                  <span>객관적</span>
+                  <span
+                    className={`${
+                      makeRatio(data.o_ratio) > makeRatio(data.s_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    객관적
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#D9D9D9]">O</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.o_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.o_ratio) > makeRatio(data.s_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  O
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.o_ratio)}%
+                </span>
               </div>
             </div>
             <div className="A/T flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#2E7BFF]">A</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.a_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.a_ratio) > makeRatio(data.t_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  A
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.a_ratio)}%
+                </span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
                 <div className="font-bold text-[14px] pt-5 flex justify-center ">
-                  <span className="text-[#2E7BFF]">행동중시</span>
+                  <span
+                    className={`${
+                      makeRatio(data.a_ratio) > makeRatio(data.t_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    행동중시
+                  </span>
                   <span>/</span>
-                  <span>전략중시</span>
+                  <span
+                    className={`${
+                      makeRatio(data.t_ratio) > makeRatio(data.a_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    전략중시
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#D9D9D9]">T</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.t_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.t_ratio) > makeRatio(data.a_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  T
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.t_ratio)}%
+                </span>
               </div>
             </div>
             <div className="D/C flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#2E7BFF]">D</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.d_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.d_ratio) > makeRatio(data.c_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  D
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.d_ratio)}%
+                </span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
                 <div className="font-bold text-[14px] pt-5 flex justify-center ">
-                  <span className="text-[#2E7BFF]">타의의존</span>
+                  <span
+                    className={`${
+                      makeRatio(data.d_ratio) > makeRatio(data.c_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    타의의존
+                  </span>
                   <span>/</span>
-                  <span>자기확신</span>
+                  <span
+                    className={`${
+                      makeRatio(data.c_ratio) > makeRatio(data.d_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    자기확신
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#D9D9D9]">C</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.c_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.c_ratio) > makeRatio(data.d_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  C
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.c_ratio)}%
+                </span>
               </div>
             </div>
             <div className="P/E flex flex-row mt-5">
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#2E7BFF]">P</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.p_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.p_ratio) > makeRatio(data.e_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  P
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.p_ratio)}%
+                </span>
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div className="h-[10px] bg-[#2E7BFF] rounded-xl w-[130px] absolute" />
                 <div className="font-bold text-[14px] pt-5 flex justify-center ">
-                  <span className="text-[#2E7BFF]">원칙주의</span>
-                  <span>/</span>
-                  <span>융통성</span>
+                  <span
+                    className={`${
+                      makeRatio(data.p_ratio) > makeRatio(data.e_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    원칙주의
+                  </span>
+                  <span> / </span>
+                  <span
+                    className={`${
+                      makeRatio(data.e_ratio) > makeRatio(data.p_ratio)
+                        ? "text-[#2E7BFF]"
+                        : "text-[#D9D9D9]"
+                    }`}
+                  >
+                    융통성
+                  </span>
                 </div>
               </div>
               <div className="flex flex-col flex items-center">
-                <span className="font-bold text-[30px] text-[#D9D9D9]">E</span>
-                <span className="text-[14px] text-[#767676]">{makeRatio(data.e_ratio)}%</span>
+                <span
+                  className={`font-bold text-[30px] ${
+                    makeRatio(data.e_ratio) > makeRatio(data.p_ratio)
+                      ? "text-[#2E7BFF]"
+                      : "text-[#D9D9D9]"
+                  }`}
+                >
+                  E
+                </span>
+                <span className="text-[14px] text-[#767676]">
+                  {makeRatio(data.e_ratio)}%
+                </span>
               </div>
             </div>
           </div>
@@ -277,6 +430,16 @@ function Id() {
             </span>
           </div>
         </div>
+      </div>
+      <div className="mt-10 flex justify-center mb-10">
+        <button
+          onClick={() => {
+            router.push("/");
+          }}
+          className="w-[350px] h-[60px] bg-[#2E7BFF] rounded-lg m-auto text-white text-center"
+        >
+          시작하기
+        </button>
       </div>
     </div>
   );
