@@ -1,7 +1,7 @@
 {
     "theme_color": "#0e4a84",
     "background_color": "#0e4a84",
-    "display": "standalone",
+    "display": "fullscreen",
     "scope": "./",
     "start_url": "./",
     "name": "HY4Y",
