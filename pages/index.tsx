@@ -5,7 +5,7 @@ import Menu from "../components/menu";
 function Home() {
   return (
     <>
-      <MainNav />
+      <MainNav title={"logo"} />
       <div className="p-2">
         <div className="flex items-center text-center justify-center mt-[15px]">
           <div>
