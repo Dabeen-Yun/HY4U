@@ -1,8 +1,18 @@
+import { useEffect } from "react";
+import { updateToken } from "../utils/api";
+import { useCookies } from "react-cookie";
+
 interface navProps {
   title: string;
 }
 
 function MainNav({ title }: navProps) {
+  const [access_token, _] = useCookies(["access_token"]);
+
+  useEffect(() => {
+    updateToken(access_token.access_token);
+  }, []);
+
   return (
     <div className="bg-[#0E4A84] h-[60px] flex justify-between p-3.5 ">
       <div className="mt-1.5">

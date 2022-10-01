@@ -3,6 +3,7 @@ import MainNav from "../../components/nav";
 import { client } from "../../utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface UserData {
   grade: string;
@@ -29,6 +30,7 @@ interface userForm {
 }
 
 function Information() {
+  const router = useRouter();
   const getUserInfo = () => {
     return client.get("students/info/").then((res) => res.data);
   };
@@ -46,6 +48,10 @@ function Information() {
     setValue("name", data?.name ?? "");
   }, [data]);
 
+  const onValid = () => {
+    router.push("/login/mstiquestion");
+  };
+
   if (isLoading) {
     return <div></div>;
   }
@@ -53,7 +59,7 @@ function Information() {
   return (
     <>
       <MainNav title={"logo"} />
-      <form>
+      <form onSubmit={handleSubmit(onValid)}>
         <div className="rounded-lg bg-white w-[350px] m-auto mt-[20px] p-4">
           <div className="flex">
             <h2 className="text-[18px] font-bold">개인정보</h2>
