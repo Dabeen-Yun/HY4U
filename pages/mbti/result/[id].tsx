@@ -5,6 +5,7 @@ import { client } from "../../../utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/atom/user";
+import React from "react";
 
 export const wordBreak: CSSProperties = {
   wordBreak: "keep-all",
@@ -19,6 +20,8 @@ function Id() {
   };
 
   const { data, isLoading } = useQuery(["result", id], getResult);
+
+  console.log(data);
 
   const makeRatio = (ratio: number) => {
     return (ratio * 100).toString().slice(0, 2);
@@ -57,11 +60,11 @@ function Id() {
               </div>
               <div className="w-[240px] h-[10px] bg-[#D9D9D9] rounded-xl mt-[19px] mx-[10px] relative">
                 <div
-                  className={`h-[10px] ${
+                  className={`h-[10px] bg-[#2E7BFF] ${
                     makeRatio(data.s_ratio) > makeRatio(data.o_ratio)
-                      ? "text-[#2E7BFF]"
-                      : "text-[#D9D9D9]"
-                  } rounded-xl w-[${240 - makeRatio(data.s_ratio)}px] absolute`}
+                      ? `w-[240 * ${data.s_ratio}px]`
+                      : `flex items-end w-[130px]`
+                  } rounded-xl  absolute`}
                 />
                 <div className="font-bold text-[14px] pt-5 flex justify-center ">
                   <span
@@ -279,7 +282,11 @@ function Id() {
       </div>
       <div className="w-[350px] flex m-auto mt-5 flex-col space-y-5">
         <div className="s/o flex flex-row space-x-5">
-          <div className="sBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#97BDFF] shadow-xl">
+          <div
+            className={`sBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.s_ratio) > makeRatio(data.o_ratio)
+            } ? "bg-[#97BDFF]" : "bg-[#FFFFFF]"`}
+          >
             <div className="flex flex-row ml-5 mt-[6px] items-center">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 S
@@ -297,7 +304,13 @@ function Id() {
               보는 등 정확한 평가가 어렵습니다.
             </span>
           </div>
-          <div className="oBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#FFFFFF] shadow-xl">
+          <div
+            className={`oBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.o_ratio) > makeRatio(data.s_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px] items-center">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 O
@@ -317,7 +330,13 @@ function Id() {
           </div>
         </div>
         <div className="a/t flex flex-row space-x-5">
-          <div className="aBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#97BDFF] shadow-xl">
+          <div
+            className={`aBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.a_ratio) > makeRatio(data.t_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px]">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 A
@@ -335,7 +354,13 @@ function Id() {
               과정을 아는것을 중요시합니다.
             </span>
           </div>
-          <div className="tBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#FFFFFF] shadow-xl">
+          <div
+            className={`tBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.t_ratio) > makeRatio(data.a_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px] items-center">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 T
@@ -355,7 +380,13 @@ function Id() {
           </div>
         </div>
         <div className="d/c flex flex-row space-x-5">
-          <div className="dBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#97BDFF] shadow-xl">
+          <div
+            className={`dBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.d_ratio) > makeRatio(data.c_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px]">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 D
@@ -373,7 +404,13 @@ function Id() {
               팀플 등 함께하는 활동을 선호합니다.
             </span>
           </div>
-          <div className="cBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#FFFFFF] shadow-xl">
+          <div
+            className={`cBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.c_ratio) > makeRatio(data.d_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px] items-center">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 C
@@ -393,7 +430,13 @@ function Id() {
           </div>
         </div>
         <div className="p/e flex flex-row space-x-5">
-          <div className="pBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#97BDFF] shadow-xl">
+          <div
+            className={`pBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.p_ratio) > makeRatio(data.e_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px]">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 P
@@ -411,7 +454,13 @@ function Id() {
               예상 밖의 상황에서는 혼란스러워합니다.
             </span>
           </div>
-          <div className="eBox w-[165px] h-[165px] rounded-xl flex flex-col bg-[#FFFFFF] shadow-xl">
+          <div
+            className={`eBox w-[165px] h-[165px] rounded-xl flex flex-col shadow-xl ${
+              makeRatio(data.e_ratio) > makeRatio(data.p_ratio)
+                ? "bg-[#97BDFF]"
+                : "bg-[#FFFFFF]"
+            }`}
+          >
             <div className="flex flex-row ml-5 mt-[6px] items-center">
               <span className="font-bold text-[40px] text-[#2E7BFF] mr-[10px]">
                 E
@@ -431,16 +480,14 @@ function Id() {
           </div>
         </div>
       </div>
-      <div className="mt-10 flex justify-center mb-10">
-        <button
-          onClick={() => {
-            router.push("/");
-          }}
-          className="w-[350px] h-[60px] bg-[#2E7BFF] rounded-lg m-auto text-white text-center"
-        >
-          시작하기
-        </button>
-      </div>
+      <button
+        onClick={() => {
+          router.push("../../");
+        }}
+        className="bg-[#2E7BFF] text-center text-white w-[340px] h-[60px] rounded-lg m-auto flex justify-center items-center mb-[80px] mt-5"
+      >
+        HY4U 시작하기
+      </button>
     </div>
   );
 }
