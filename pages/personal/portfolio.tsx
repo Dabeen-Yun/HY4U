@@ -9,11 +9,13 @@ import { useRouter } from "next/router";
 function Portfolio() {
   const router = useRouter();
 
+  const id = router.query.id;
+
   const getResult = (id: string) => {
     return client.get(`polls/result/${id}/`).then((res) => res.data);
   };
 
-  const { data, isLoading } = useQuery(["result", id], getResult);
+  const { data, isLoading } = useQuery(["result", id], () => getResult(id));
 
   console.log(data);
 

@@ -40,12 +40,9 @@ function Login() {
   };
 
   const onValid = async (data: userData) => {
-    const flag = await Login(data);
-    if (flag) {
-      router.push("/login/information");
-    } else {
-      alert("아이디 비밀번호를 다시 확인해주세요.");
-    }
+    // const flag = await Login(data);
+
+    router.push("/login/information");
   };
 
   return (
