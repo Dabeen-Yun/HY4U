@@ -12,7 +12,7 @@ function Home() {
         <div className="flex items-center text-center justify-center"></div>
         <div className="flex justify-evenly flex-wrap ">
           <div
-            className="cusor-point"
+            className="cursor-point"
             onClick={() => {
               router.push("../personal/portfolio");
             }}
@@ -23,21 +23,42 @@ function Home() {
               src="/images/portfolio.png"
             />
           </div>
-          <Menu
-            title="교내정보"
-            des="졸업 로드맵/과목추천"
-            src="/images/temple.png"
-          />
-          <Menu
-            title="교외정보"
-            des="대외활동/동아리추천"
-            src="/images/cup.png"
-          />
-          <Menu
-            title="취업/장학"
-            des="교외장학/취업정보"
-            src="/images/coin.png"
-          />
+          <div
+            className="cursor-point"
+            onClick={() => {
+              router.push("../personal/oncampus");
+            }}
+          >
+            <Menu
+              title="교내정보"
+              des="졸업 로드맵/과목추천"
+              src="/images/temple.png"
+            />
+          </div>
+          <div
+            className="cursor-point"
+            onClick={() => {
+              router.push("../personal/extracurricular");
+            }}
+          >
+            <Menu
+              title="교외정보"
+              des="대외활동/동아리추천"
+              src="/images/cup.png"
+            />
+          </div>
+          <div
+            className="cursor-point"
+            onClick={() => {
+              router.push("../personal/recruit");
+            }}
+          >
+            <Menu
+              title="취업/장학"
+              des="교외장학/취업정보"
+              src="/images/coin.png"
+            />
+          </div>
         </div>
         <div className="bg-white rounded-lg w-[350px] h-[320px] m-auto mt-[20px] p-6 mb-20 ">
           <div className="flex items-center space-x-3 text-[22px] font-bold">

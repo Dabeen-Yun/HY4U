@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 function Portfolio() {
   const router = useRouter();
 
-  const getResult = () => {
+  const getResult = (id: string) => {
     return client.get(`polls/result/${id}/`).then((res) => res.data);
   };
 
